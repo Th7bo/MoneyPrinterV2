@@ -5,7 +5,7 @@ services:
     environment:
       PORT: "8080"
       # Set "true" only for the one-time Firefox login over noVNC, then back to "false".
-      ENABLE_VNC: "false"
+      ENABLE_VNC: "${ENABLE_VNC:-false}"
       OLLAMA_BASE_URL: "http://ollama:11434"
       # REQUIRED. Set the real value in Dokploy's Environment tab — never commit it.
       # If left unset, the app generates one and prints it to the container logs.
