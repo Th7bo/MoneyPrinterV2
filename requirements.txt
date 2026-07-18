@@ -7,7 +7,9 @@ soundfile
 prettytable
 webdriver_manager
 selenium_firefox
-selenium
+# selenium_firefox imports FirefoxBinary from Selenium's legacy module path.
+# Selenium 4.17 deprecated that class and newer releases eventually removed it.
+selenium==4.16.0
 ollama
 # The video pipeline still uses the MoviePy 1.x API (moviepy.editor,
 # set_*/resize/fx helpers, config.change_settings and SubtitlesClip).
