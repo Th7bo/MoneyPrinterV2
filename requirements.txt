@@ -9,8 +9,12 @@ webdriver_manager
 selenium_firefox
 selenium
 ollama
-moviepy
-Pillow>=10.0.0
+# The video pipeline still uses the MoviePy 1.x API (moviepy.editor,
+# set_*/resize/fx helpers, config.change_settings and SubtitlesClip).
+moviepy==1.0.3
+# MoviePy 1.0.3 uses Pillow APIs removed in Pillow 10.
+Pillow>=9.2,<10
+
 yagmail
 assemblyai
 faster-whisper

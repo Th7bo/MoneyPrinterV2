@@ -23,7 +23,8 @@ WORKDIR /app
 COPY requirements.txt ./requirements.txt
 RUN pip install --upgrade pip wheel \
     && pip install -r requirements.txt \
-    && pip install "fastapi>=0.110" "uvicorn[standard]>=0.29" "apscheduler>=3.10,<4" "SQLAlchemy>=2.0"
+    && pip install "fastapi>=0.110" "uvicorn[standard]>=0.29" "apscheduler>=3.10,<4" "SQLAlchemy>=2.0" \
+    && python -c "from moviepy.editor import AudioFileClip, CompositeAudioClip, CompositeVideoClip, ImageClip, TextClip, concatenate_videoclips; from moviepy.video.fx.all import crop; from moviepy.config import change_settings; from moviepy.video.tools.subtitles import SubtitlesClip"
 
 # Everything from the fork (upstream src/ + dashboard_server.py + config.example.json).
 COPY . .
