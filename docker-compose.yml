@@ -4,11 +4,16 @@ services:
     restart: unless-stopped
     environment:
       PORT: "8080"
-      ENABLE_VNC: "true"   # set "true" for the one-time Firefox login, then back
+      ENABLE_VNC: "false"
       OLLAMA_BASE_URL: "http://ollama:11434"
     volumes:
-      - mp_cache:/app/.mp        # config.json, accounts, schedules, results
-      - mp_profiles:/profiles    # logged-in Firefox profiles
+      - mp_cache:/app/.mp
+      - mp_profiles:/profiles
+    networks:
+      - default
+      - dokploy-network
+    labels:
+      - traefik.docker.network=dokploy-network
     depends_on:
       - ollama
 
@@ -17,9 +22,12 @@ services:
     restart: unless-stopped
     volumes:
       - ollama_models:/root/.ollama
-    # After it's up, pull a model once:
-    #   docker compose exec ollama ollama pull llama3.2:3b
-    # then set "ollama_model" to llama3.2:3b in the dashboard Settings.
+    networks:
+      - default
+
+networks:
+  dokploy-network:
+    external: true
 
 volumes:
   mp_cache:
