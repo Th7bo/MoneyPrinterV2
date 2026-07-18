@@ -1,0 +1,30 @@
+services:
+  dashboard:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8080:8080"     # dashboard -> point your Dokploy domain here
+      - "6080:6080"     # noVNC (only reachable when ENABLE_VNC=true)
+    environment:
+      PORT: "8080"
+      ENABLE_VNC: "false"   # set "true" for the one-time Firefox login, then back
+      OLLAMA_BASE_URL: "http://ollama:11434"
+    volumes:
+      - mp_cache:/app/.mp        # config.json, accounts, schedules, results
+      - mp_profiles:/profiles    # logged-in Firefox profiles
+    depends_on:
+      - ollama
+
+  ollama:
+    image: ollama/ollama:latest
+    restart: unless-stopped
+    volumes:
+      - ollama_models:/root/.ollama
+    # After it's up, pull a model once:
+    #   docker compose exec ollama ollama pull llama3.2:3b
+    # then set "ollama_model" to llama3.2:3b in the dashboard Settings.
+
+volumes:
+  mp_cache:
+  mp_profiles:
+  ollama_models:
