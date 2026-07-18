@@ -4,11 +4,16 @@ services:
     restart: unless-stopped
     environment:
       PORT: "8080"
+      # Set "true" only for the one-time Firefox login over noVNC, then back to "false".
       ENABLE_VNC: "false"
       OLLAMA_BASE_URL: "http://ollama:11434"
+      # REQUIRED. Set the real value in Dokploy's Environment tab — never commit it.
+      # If left unset, the app generates one and prints it to the container logs.
+      DASHBOARD_PASSWORD: "${DASHBOARD_PASSWORD}"
     volumes:
-      - mp_cache:/app/.mp
-      - mp_profiles:/profiles
+      - mp_cache:/app/.mp        # config.json, accounts, schedules, session key
+      - mp_profiles:/profiles    # logged-in Firefox profiles
+    # Traefik lives on dokploy-network; "default" keeps Ollama reachable.
     networks:
       - default
       - dokploy-network
@@ -24,6 +29,9 @@ services:
       - ollama_models:/root/.ollama
     networks:
       - default
+    # After it's up, pull a model once:
+    #   docker compose exec ollama ollama pull llama3.2:3b
+    # then set "ollama_model" to llama3.2:3b in the dashboard Settings.
 
 networks:
   dokploy-network:
