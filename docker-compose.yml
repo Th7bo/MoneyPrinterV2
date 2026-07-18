@@ -2,12 +2,9 @@ services:
   dashboard:
     build: .
     restart: unless-stopped
-    ports:
-      - "8080:8080"     # dashboard -> point your Dokploy domain here
-      - "6080:6080"     # noVNC (only reachable when ENABLE_VNC=true)
     environment:
       PORT: "8080"
-      ENABLE_VNC: "false"   # set "true" for the one-time Firefox login, then back
+      ENABLE_VNC: "true"   # set "true" for the one-time Firefox login, then back
       OLLAMA_BASE_URL: "http://ollama:11434"
     volumes:
       - mp_cache:/app/.mp        # config.json, accounts, schedules, results
